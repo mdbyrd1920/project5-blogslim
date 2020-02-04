@@ -26,7 +26,7 @@ class Post
     }
 
 //Gets one post
-    public function getPost($post_id)
+    public function getAPost($post_id)
   {
       $results = $this->db->prepare(
          'SELECT * FROM posts WHERE post_id=:post_id'

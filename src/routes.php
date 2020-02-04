@@ -36,14 +36,13 @@ $app->post('/post/new', function($request, $response, $args) {
 
   $args = array_merge($args, $request->getParsedBody());
 
-
   $args['date'] = date('Y-m-d');
 
   // Add post
-  if (!empty($args['title']) && !empty($args['date']) && !empty($args['entry'])) {
+  if (!empty($args['title']) && !empty($args['date']) && !empty($args['body'])) {
 
       $post = new Post($this->db);
-      $results = $post->createPost($args['title'], $args['date'], $args['entry']);
+      $results = $post->createPost($args['title'], $args['date'], $args['body']);
       $args['posts'] = $results;
 
      }
@@ -53,28 +52,32 @@ $app->post('/post/new', function($request, $response, $args) {
 
 
 //display sinlge post
-$app->map(['GET', 'PUT'],'/posts/{id}', function ($request, $response, $args) {
+$app->map(['GET', 'POST'], '/post/{id}/{post_title}', function ($request, $response, $args) {
         if ($request->getMethod() == 'POST') {
     $args = array_merge($args, $request->getParsedBody());
+    if (!empty($args['title']) && !empty($args['body'])) {
 
       $post = new Post ($this->db);
-      $results = $post->getPost($args['id']);
+      $this->logger->info('/detail');
+      $results = $post->getAPost($args['id']);
 
-      $args['posts'] = $results;
+      //$args['posts'] = $results;
 
       $comments = new Comment($this->db);
       $resultsComm = $comments->getComments($args['id']);
 
     if (!empty($postComm)) {
       $args['comments'] = $resultsComm;
+      $url = $this->router->pathFor('detail');
+      return $response->withStatus(302)->withHeader('Location', $url);
+}
 }
 
-
-  return $this->view->render($response, "index.twig", $args);
+  //return $this->view->render($response, "index.twig", $args);
 /* [
   'posts' => $post,
   'comments' => $comments
 ]); */
 
 }
-});
+})->setName('post-detail');
