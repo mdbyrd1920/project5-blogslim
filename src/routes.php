@@ -33,7 +33,7 @@ $app->get('/new', function($request, $response) {
 
 // Add a new post
 $app->post('/post/new', function($request, $response, $args) {
-  // Getting form data with post details
+
   $args = array_merge($args, $request->getParsedBody());
 
 
