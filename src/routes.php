@@ -32,7 +32,7 @@ $app->get('/new', function($request, $response) {
 
 
 // Add a new post
-$app->post('/post/new', function($request, $response, $args) {
+$app->post('/new', function($request, $response, $args) {
 
   $args = array_merge($args, $request->getParsedBody());
 
@@ -61,7 +61,7 @@ $app->map(['GET', 'POST'], '/post/{id}/{post_title}', function ($request, $respo
       $this->logger->info('/detail');
       $results = $post->getAPost($args['id']);
 
-      //$args['posts'] = $results;
+      $args['posts'] = $results;
 
       $comments = new Comment($this->db);
       $resultsComm = $comments->getComments($args['id']);
