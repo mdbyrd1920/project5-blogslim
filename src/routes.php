@@ -31,12 +31,17 @@ $app->get('/new', function($request, $response) {
 
 
 
-// Add a new post
+
+
+
+
+
+// Create Post route
 $app->post('/new', function($request, $response, $args) {
+//if ($request->getMethod() == 'PUT') {
+  //$args = array_merge($args, $request->getParsedBody());
 
-  $args = array_merge($args, $request->getParsedBody());
-
-  $args['date'] = date('Y-m-d');
+  //$args['date'] = date('Y-m-d');
 
   // Add post
   if (!empty($args['title']) && !empty($args['date']) && !empty($args['body'])) {
@@ -44,13 +49,14 @@ $app->post('/new', function($request, $response, $args) {
       $post = new Post($this->db);
       $results = $post->createPost($args['title'], $args['date'], $args['body']);
       $args['posts'] = $results;
+}
 
-     }
- return $this->view->render($response, 'index.twig', $args);
-
+return $this->view->render($response, 'index.twig', $args);
 });
 
 
+
+/*
 //display sinlge post
 $app->map(['GET', 'POST'], '/post/{id}/{post_title}', function ($request, $response, $args) {
         if ($request->getMethod() == 'POST') {
@@ -79,5 +85,6 @@ $app->map(['GET', 'POST'], '/post/{id}/{post_title}', function ($request, $respo
   'comments' => $comments
 ]); */
 
-}
-})->setName('post-detail');
+// }
+//   });
+// Edit a Journal Entry

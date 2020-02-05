@@ -13,6 +13,8 @@ class Post
     }
 
 //Function method that Get all Posts to display
+
+
     public function getPosts()
     {
 
@@ -25,13 +27,13 @@ class Post
         return $post;
     }
 
-//Gets one post
-    public function getAPost($post_id)
+
+    public function getAPost($id)
   {
       $results = $this->db->prepare(
-         'SELECT * FROM posts WHERE post_id=:post_id'
+         'SELECT * FROM posts WHERE id=:id'
       );
-      $results->bindParam('post_id', $post_id);
+      $results->bindParam('id', $id);
       $results->execute();
       $post = $results->fetch();
       /*if (empty($post)) {
@@ -41,26 +43,31 @@ class Post
     }
 
 //Add/create post
+
+// add Post //to database
     public function createPost($title, $date, $body)
     {
         /*if (empty($data['post_id']) || empty($data['rating']) || empty($data['comment'])) {
             throw new ApiException(ApiException::REVIEW_INFO_REQUIRED);
         }*/
         $results = $this->db->prepare('INSERT INTO posts (title, date, body) VALUES (:title, :date, :body)');
-        $results->bindParam('title', $title, PDO::PARAM_STR);
-        $results->bindParam('date', $date, PDO::PARAM_STR);
-        $results->bindParam('body', $body, PDO::PARAM_STR);
+        $results->bindParam(':title', $title, PDO::PARAM_STR);
+        $results->bindParam(':date', $date, PDO::PARAM_STR);
+        $results->bindParam(':body', $body, PDO::PARAM_STR);
         $results->execute();
       /*  if ($statement->rowCount()<1) {
             throw new ApiException(ApiException::REVIEW_CREATION_FAILED);
         }*/
         return true;
     }
+
+
+//updatePost/edit
     public function updatePost($title, $date, $body)
     {
-        $this->getPost($post_id, $title, $date, $body);
-        $results = $this->db->prepare('UPDATE posts SET comment=:comment WHERE post_id=:post_id');
-        $results->bindParam('post_id', $post_id, PDO::PARAM_INT);
+        $this->getPost($id, $title, $date, $body);
+        $results = $this->db->prepare('UPDATE posts SET comment=:comment WHERE id=:id');
+        $results->bindParam('id', $id, PDO::PARAM_INT);
         $results->bindParam('title', $title, PDO::PARAM_STR);
         $results->bindParam('date', $date, PDO::PARAM_STR);
         $results->bindParam('body', $body, PDO::PARAM_STR);
@@ -71,12 +78,12 @@ class Post
         return $results->fetch();
     }
 
-
-    public function deletePost($post_id)
+// deletePost
+    public function deletePost($id)
     {
-        $this->getPost($post_id);
-        $results = $this->db->prepare('DELETE FROM posts WHERE post_id=:post_id');
-        $results->bindParam('post_id', $post_id);
+        $this->getPost($id);
+        $results = $this->db->prepare('DELETE FROM posts WHERE id=:id');
+        $results->bindParam('id', $id);
         $results->execute();
         /*if ($statement->rowCount()<1) {
             throw new ApiException(ApiException::REVIEW_DELETE_FAILED);
