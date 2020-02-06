@@ -214,3 +214,5 @@
 [2020-01-31 09:47:55] slim-app.INFO: index'/' route [] {"uid":"755cc30"}
 [2020-01-31 12:00:27] slim-app.INFO: index'/' route [] {"uid":"7450853"}
 [2020-01-31 12:31:54] slim-app.INFO: index'/' route [] {"uid":"0c4dab7"}
+[2020-02-05 17:48:50] slim-app.NOTICE: ["Add new post to db","hello?"] [] {"uid":"8a5f68c"}
+[2020-02-06 13:12:47] slim-app.NOTICE: ["Checking for errors ","??"] [] {"uid":"bc04f3d"}

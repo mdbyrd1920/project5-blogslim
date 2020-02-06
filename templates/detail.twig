@@ -27,7 +27,7 @@
                         <div class="body">
                             <p>{ post.body }}</p>
                           <!--  <a href="">dolor augue</a> -->
-                            <p><a class="link" href="edit.twig">Edit Entry</a></p>
+                            <p><a class="link" href= "{{ post.id }}">Edit Entry</a></p>
                         </div>
                     </article>
                 </div>
@@ -36,13 +36,17 @@
         <section class="entry-comments">
             <div class="container">
                     <h2>Comments</h2>
+
+                    {% for comment in comments %}
                     <div class="comment">
                         <strong>Carling Kirk</strong>
-                        <time datetime="2016-01-31 1:00">January 31, 2016 at 1:00</time>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ut rhoncus felis, vel tincidunt neque. Vestibulum ut metus eleifend, malesuada nisl at, scelerisque sapien. Vivamus pharetra massa libero, sed feugiat turpis efficitur at.</p>
+                        <time datetime="{{ comment.date }}">{{ comment.date|date('F d, Y' }}</time>
+                        <p>{{ comment.body }}</p>
                     </div>
+
+                    {% endfor %}
                     <div class="new-comment">
-                        <form>
+                        <form method="POST" action="/posts/{{ post.id }}/{{ post.title|raw }}">
                               <label for="name"> Name</label>
                               <input type="text" name="name"><br>
                               <label for="comment">Comment</label>

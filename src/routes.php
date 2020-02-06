@@ -39,20 +39,61 @@ $app->get('/new', function($request, $response) {
 // Create Post route
 $app->post('/new', function($request, $response, $args) {
 //if ($request->getMethod() == 'PUT') {
-  //$args = array_merge($args, $request->getParsedBody());
+
+$post = new Post($this->db);
+$args = array_merge($args, $request->getParsedBody());
 
   //$args['date'] = date('Y-m-d');
 
   // Add post
   if (!empty($args['title']) && !empty($args['date']) && !empty($args['body'])) {
-
-      $post = new Post($this->db);
-      $results = $post->createPost($args['title'], $args['date'], $args['body']);
-      $args['posts'] = $results;
+  $this->logger->notice(json_encode([$args['name'], $args['body']]));
+  $results = $post->createPost($args['title'], $args['date'], $args['body']);
+      //$args['posts'] = $results;
 }
 
 return $this->view->render($response, 'index.twig', $args);
 });
+
+
+$app->map(['GET', 'POST'], '/{id}/{post_title}', function ($request, $response, $args) {
+    $post = new Post($this->db);
+    $comment = new Comment($this->db);
+
+    if ($request->getMethod() == 'POST') {
+        $args = array_merge($args, $request->getParsedBody());
+        if (!empty($args['name']) && !empty($args['body'])) {
+            $this->logger->notice(json_encode([$args['name'], $args['body']]));
+            $comment->addComment($args['name'], $args['body'], $args['id']);
+            $url = $this->router->pathFor(
+                'getAPost',
+                ['id' => $args['id'], 'post_title' => $args['post_title']]
+            );
+            return $response->withStatus(302)->withHeader('Location', $url);
+        }
+        $args['error'] = 'All fields required.';
+    }
+
+
+
+    $this->logger->info( '/details');
+    $post = $post->getApost($args['id']);
+    $args['post'] = $post;
+    $comments = $comment->getComments($post['id']);
+    $args['comments'] = $comments;
+    if (empty($post)) {
+        $url = $this->router->pathFor('index');
+        return $response->withStatus(302)->withHeader('Location', $url);
+    }
+        $args['save'] = $_POST;
+        return $this->view->render($response, 'details.twig', $args);
+})->setName('getApost');
+
+
+
+
+
+
 
 
 

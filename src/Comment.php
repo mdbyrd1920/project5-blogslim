@@ -14,7 +14,7 @@ class Comment
     public function getComments()
     {
       $statment = $this->db->prepare(
-                 'SELECT * FROM comments WHERE comment_id = ? ORDER BY date DESC'
+                 'SELECT * FROM comments WHERE id = ? ORDER BY date DESC'
              );
              $statemnt->execute();
              $comments = $results->fetchAll();
@@ -26,12 +26,12 @@ class Comment
     }
 
 //
-    public function getComment($comment_id)
+    public function getComment($id)
   {
       $statment = $this->db->prepare(
-         'SELECT * FROM comments WHERE comment_id=:comment_id'
+         'SELECT * FROM comments WHERE id=:id'
       );
-      $results->bindParam('comment_id', $comment_id);
+      $results->bindParam('id', $id);
       $statment->execute();
       $comment = $statemnt->fetch();
       /*if (empty($post)) {
@@ -57,9 +57,9 @@ class Comment
     }
     public function updateComment($title, $date, $body)
     {
-        $this->getComment($comment_id, $title, $date, $body);
-        $results = $this->db->prepare('UPDATE comments SET rating=:rating, comment=:comment WHERE comment_id=:comment_id');
-        $results->bindParam('comment_id', $comment_id, PDO::PARAM_INT);
+        $this->getComment($id, $title, $date, $body);
+        $results = $this->db->prepare('UPDATE comments SET rating=:rating, comment=:comment WHERE id=:id');
+        $results->bindParam('id', $id, PDO::PARAM_INT);
         $results->bindParam('title', $title, PDO::PARAM_STR);
         $results->bindParam('date', $date, PDO::PARAM_STR);
         $results->bindParam('body', $body, PDO::PARAM_STR);
@@ -69,11 +69,11 @@ class Comment
         }*/
         return $statment->fetch();
     }
-    public function deleteComment($comment_id)
+    public function deleteComment($id)
     {
-        $this->getComment($comment_id);
-        $results = $this->db->prepare('DELETE FROM comments WHERE comment_id=:comment_id');
-        $results->bindParam('comment_id', $comment_id);
+        $this->getComment($id);
+        $results = $this->db->prepare('DELETE FROM comments WHERE id=:id');
+        $results->bindParam('id', $id);
         $results->execute();
         /*if ($statement->rowCount()<1) {
             thrresultsiException(ApiException::REVIEW_DELETE_FAILED);
