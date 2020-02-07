@@ -51,9 +51,10 @@ $args['date'] = date('Y-m-d');
   $args['post'] = $results;
 
 }
-
-return $this->view->render($response, 'index.twig', $args);
-});
+$url = $this->router->pathFor('post-detail');
+return $response->withStatus(302)->withHeader('Location',$url);
+//return $this->view->render($response, 'index.twig', $args);
+})->setName('post-detail');
 
 
 
@@ -61,9 +62,9 @@ return $this->view->render($response, 'index.twig', $args);
 
 //details
 
-$app->map(['GET', 'POST'], '/{id}/{post_title}', function ($request, $response, $args) {
+$app->map(['GET'], '/{id}', function ($request, $response, $args) {
     $post = new Post($this->db);
-    $comment = new Comment($this->db);
+    //$comment = new Comment($this->db);
 
 
     if ($request->getMethod() == 'POST') {
@@ -80,15 +81,13 @@ $app->map(['GET', 'POST'], '/{id}/{post_title}', function ($request, $response, 
         $args['error'] = 'All fields are required.';
     }
 
-
-
     $this->logger->info('/details');
-    $createPost = $post->getSinglePost($args['id']);
-    $args['post'] = $createPost;
-    $comments = $comment->getCommentsForPost($createPost['id']);
-    $args['comments'] = $comments;
+    //$createPost = $post->getSinglePost($args['id']);
+  //  $args['post'] = $createPost;
+  //  $comments = $comment->getCommentsForPost($createPost['id']);
+  //  $args['comments'] = $comments;
     if (empty($createPost)) {
-        $url = $this->router->pathFor('index');
+        $url = $this->router->pathFor('');
         return $response->withStatus(302)->withHeader('Location', $url);
     }
         $args['save'] = $_POST;
