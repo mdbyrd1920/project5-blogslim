@@ -31,7 +31,11 @@ $app->get('/new', function($request, $response) {
 
 
 
-// Create Post route
+
+
+// Create Post route to db
+
+//Need to Redirect to index
 $app->post('/new', function($request, $response, $args) {
 //if ($request->getMethod() == 'PUT') {
 
@@ -54,17 +58,21 @@ return $this->view->render($response, 'index.twig', $args);
 
 
 
+
+//details
+
 $app->map(['GET', 'POST'], '/{id}/{post_title}', function ($request, $response, $args) {
     $post = new Post($this->db);
     $comment = new Comment($this->db);
+
 
     if ($request->getMethod() == 'POST') {
         $args = array_merge($args, $request->getParsedBody());
         if (!empty($args['name']) && !empty($args['body'])) {
             $this->logger->notice(json_encode([$args['name'], $args['body']]));
-            $comment->addComment($args['name'], $args['body'], $args['id']);
+            $comment->getComments($args['name'], $args['body'], $args['id']);
             $url = $this->router->pathFor(
-                'getAPost',
+                'createPost',
                 ['id' => $args['id'], 'post_title' => $args['post_title']]
             );
             return $response->withStatus(302)->withHeader('Location', $url);
@@ -74,55 +82,15 @@ $app->map(['GET', 'POST'], '/{id}/{post_title}', function ($request, $response, 
 
 
 
-    $this->logger->info( '/details');
-    $post = $post->getApost($args['id']);
-    $args['posts'] = $post;
-    $comments = $comment->getComments($post['id']);
+    $this->logger->info('/details');
+    $createPost = $post->getSinglePost($args['id']);
+    $args['post'] = $createPost;
+    $comments = $comment->getCommentsForPost($createPost['id']);
     $args['comments'] = $comments;
-    if (empty($post)) {
+    if (empty($createPost)) {
         $url = $this->router->pathFor('index');
         return $response->withStatus(302)->withHeader('Location', $url);
     }
         $args['save'] = $_POST;
         return $this->view->render($response, 'details.twig', $args);
-})->setName('getApost');
-
-
-
-
-
-
-
-
-/*
-//display sinlge post
-$app->map(['GET', 'POST'], '/post/{id}/{post_title}', function ($request, $response, $args) {
-        if ($request->getMethod() == 'POST') {
-    $args = array_merge($args, $request->getParsedBody());
-    if (!empty($args['title']) && !empty($args['body'])) {
-
-      $post = new Post ($this->db);
-      $this->logger->info('/detail');
-      $results = $post->getAPost($args['id']);
-
-      $args['posts'] = $results;
-
-      $comments = new Comment($this->db);
-      $resultsComm = $comments->getComments($args['id']);
-
-    if (!empty($postComm)) {
-      $args['comments'] = $resultsComm;
-      $url = $this->router->pathFor('detail');
-      return $response->withStatus(302)->withHeader('Location', $url);
-}
-}
-
-  //return $this->view->render($response, "index.twig", $args);
-/* [
-  'posts' => $post,
-  'comments' => $comments
-]); */
-
-// }
-//   });
-// Edit a Journal Entry
+})->setName('createPost');

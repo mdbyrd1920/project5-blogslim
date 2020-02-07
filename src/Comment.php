@@ -55,6 +55,7 @@ class Comment
         }*/
         return $this->getComment($this->db->lastInsertId());
     }
+
     public function updateComment($title, $date, $body)
     {
         $this->getComment($id, $title, $date, $body);
