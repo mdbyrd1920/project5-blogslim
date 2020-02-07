@@ -82,12 +82,12 @@ $app->map(['GET'], '/{id}', function ($request, $response, $args) {
     }
 
     $this->logger->info('/details');
-    //$createPost = $post->getSinglePost($args['id']);
-  //  $args['post'] = $createPost;
-  //  $comments = $comment->getCommentsForPost($createPost['id']);
-  //  $args['comments'] = $comments;
+    $createPost = $post->getAPost($args['id']);
+    $args['post'] = $createPost;
+    $comments = $comment->getComments($createPost['id']);
+    $args['comments'] = $comments;
     if (empty($createPost)) {
-        $url = $this->router->pathFor('');
+        $url = $this->router->pathFor('createPost');
         return $response->withStatus(302)->withHeader('Location', $url);
     }
         $args['save'] = $_POST;
