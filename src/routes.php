@@ -31,11 +31,6 @@ $app->get('/new', function($request, $response) {
 
 
 
-
-
-
-
-
 // Create Post route
 $app->post('/new', function($request, $response, $args) {
 //if ($request->getMethod() == 'PUT') {
@@ -43,17 +38,20 @@ $app->post('/new', function($request, $response, $args) {
 $post = new Post($this->db);
 $args = array_merge($args, $request->getParsedBody());
 
-  //$args['date'] = date('Y-m-d');
+$args['date'] = date('Y-m-d');
 
   // Add post
   if (!empty($args['title']) && !empty($args['date']) && !empty($args['body'])) {
-  $this->logger->notice(json_encode([$args['name'], $args['body']]));
+  //$this->logger->notice(json_encode([$args['name'], $args['body']]));
   $results = $post->createPost($args['title'], $args['date'], $args['body']);
-      //$args['posts'] = $results;
+  $args['post'] = $results;
+
 }
 
 return $this->view->render($response, 'index.twig', $args);
 });
+
+
 
 
 $app->map(['GET', 'POST'], '/{id}/{post_title}', function ($request, $response, $args) {
@@ -71,14 +69,14 @@ $app->map(['GET', 'POST'], '/{id}/{post_title}', function ($request, $response, 
             );
             return $response->withStatus(302)->withHeader('Location', $url);
         }
-        $args['error'] = 'All fields required.';
+        $args['error'] = 'All fields are required.';
     }
 
 
 
     $this->logger->info( '/details');
     $post = $post->getApost($args['id']);
-    $args['post'] = $post;
+    $args['posts'] = $post;
     $comments = $comment->getComments($post['id']);
     $args['comments'] = $comments;
     if (empty($post)) {
@@ -88,7 +86,6 @@ $app->map(['GET', 'POST'], '/{id}/{post_title}', function ($request, $response, 
         $args['save'] = $_POST;
         return $this->view->render($response, 'details.twig', $args);
 })->setName('getApost');
-
 
 
 
