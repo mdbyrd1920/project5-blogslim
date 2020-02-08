@@ -13,10 +13,11 @@ class Comment
 //prepare statement that Get all Comments to display
     public function getComments()
     {
-      $statment = $this->db->prepare(
+      $results = $this->db->prepare(
                  'SELECT * FROM comments WHERE id = ? ORDER BY date DESC'
-             );
-             $statemnt->execute();
+
+             $results->bindValue(1, $id, \PDO::PARAM_INT);
+             $results->execute();
              $comments = $results->fetchAll();
 
         /*if (empty($posts)) {
@@ -28,12 +29,12 @@ class Comment
 //
     public function getComment($id)
   {
-      $statment = $this->db->prepare(
+      $results = $this->db->prepare(
          'SELECT * FROM comments WHERE id=:id'
       );
       $results->bindParam('id', $id);
-      $statment->execute();
-      $comment = $statemnt->fetch();
+      $results->execute();
+      $comment = $results->fetch();
       /*if (empty($post)) {
           throw new ApiException(ApiException::ENTRY_NOT_FOUND, 404);
       }*/
@@ -68,7 +69,7 @@ class Comment
         /*if ($statement->rowCount()<1) {\
             throw new ApiException(ApiException::REVIEW_UPDATE_FAILED);
         }*/
-        return $statment->fetch();
+        return $results->fetch();
     }
     public function deleteComment($id)
     {

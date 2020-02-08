@@ -23,7 +23,7 @@
                 <div class="entry-list single">
 
                     <article>
-                        <h1>{ post.id|raw }}</h1>
+                        <h1>{ post.title|raw }}</h1>
                         <time datetime="{{ post.date }}">{{ post.date|date('F d, Y'}}</time>
                         <div class="body">
                             <p>{ post.body|raw }}</p>
@@ -36,6 +36,7 @@
         </section>
         <section class="entry-comments">
             <div class="container">
+              {% if comments is not empty %}
                     <h2>Comments</h2>
 
                     {% for comment in comments %}
@@ -46,10 +47,12 @@
                     </div>
 
                     {% endfor %}
+                    
+               {% endif %}
                     <div class="new-comment">
                         <form method="POST" action="{{ post.id }}/{{ post.title|raw }}">
                               <label for="name"> Name</label>
-                              <input type="text" name="name"><br>
+                              <input type="text" name=""><br>
                               <label for="comment">Comment</label>
                               <textarea rows="5" name="comment"></textarea>
 

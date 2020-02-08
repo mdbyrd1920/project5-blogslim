@@ -5,6 +5,9 @@
 use Slim\App;
 use App\Post;
 use App\Comment;
+use Slim\Http\Request;
+use Slim\Http\Response;
+use Slim\Views\Twig;
 
 //routes
 
@@ -29,13 +32,9 @@ $app->get('/new', function($request, $response) {
   return $this->view->render($response, 'new.twig');
 });
 
-
-
-
-
 // Create Post route to db
 
-//Need to Redirect to index
+
 $app->post('/new', function($request, $response, $args) {
 //if ($request->getMethod() == 'PUT') {
 
@@ -51,10 +50,12 @@ $args['date'] = date('Y-m-d');
   $args['post'] = $results;
 
 }
-$url = $this->router->pathFor('post-detail');
-return $response->withStatus(302)->withHeader('Location',$url);
+$url = $this->router->pathFor('new');
+return $response->withStatus(302)->withHeader('Location', '/');
 //return $this->view->render($response, 'index.twig', $args);
-})->setName('post-detail');
+})->setName('new');
+
+
 
 
 
@@ -62,34 +63,39 @@ return $response->withStatus(302)->withHeader('Location',$url);
 
 //details
 
-$app->map(['GET'], '/{id}', function ($request, $response, $args) {
-    $post = new Post($this->db);
-    //$comment = new Comment($this->db);
+$app->map(['GET', 'POST'], '/detail/{id}', function($request, $response, $args) {
+
+$post = new Post($this->db);
+$comment = new Comment($this->db);
+
+$this->logger->info('/details');
+
+if ($request->getMethod() == 'POST') {
+ $args = array_merge($args, $request->getParsedBody());
 
 
-    if ($request->getMethod() == 'POST') {
-        $args = array_merge($args, $request->getParsedBody());
-        if (!empty($args['name']) && !empty($args['body'])) {
-            $this->logger->notice(json_encode([$args['name'], $args['body']]));
-            $comment->getComments($args['name'], $args['body'], $args['id']);
-            $url = $this->router->pathFor(
-                'createPost',
-                ['id' => $args['id'], 'post_title' => $args['post_title']]
-            );
-            return $response->withStatus(302)->withHeader('Location', $url);
-        }
-        $args['error'] = 'All fields are required.';
-    }
+//if (!empty($args['title']) && !empty($args['date']) && !empty($args['body'])) {
 
-    $this->logger->info('/details');
-    $createPost = $post->getAPost($args['id']);
-    $args['post'] = $createPost;
-    $comments = $comment->getComments($createPost['id']);
-    $args['comments'] = $comments;
-    if (empty($createPost)) {
-        $url = $this->router->pathFor('createPost');
-        return $response->withStatus(302)->withHeader('Location', $url);
-    }
-        $args['save'] = $_POST;
-        return $this->view->render($response, 'details.twig', $args);
-})->setName('createPost');
+   $results = $post->getAPost($args['id']);
+   $args['post'] = $results;
+   $results_comments = $comment->getComments($args['id']);
+   $args['comments'] = $results_comments;
+   if (empty($singlePost)) {
+       $url = $this->router->pathFor('detail');
+       return $response->withStatus(302)->withHeader('Location', $url);
+}
+       //$args['error'] = "all fields are required"
+
+
+//render detail view
+    return $this->view->render($response, 'details.twig',
+          [
+                 'post' => $post,
+                 'comment' => $comment,
+                 'args' => $args,
+                 'results' => $results
+             ]
+ );
+}
+
+})->setName('detail');
