@@ -85,10 +85,10 @@ if ($request->getMethod() == 'POST') {
        return $response->withStatus(302)->withHeader('Location', $url);
 }
        //$args['error'] = "all fields are required"
-
+}
 
 //render detail view
-    return $this->view->render($response, 'details.twig',
+    return $this->view->render($response, 'detail.twig',
           [
                  'post' => $post,
                  'comment' => $comment,
@@ -96,6 +96,6 @@ if ($request->getMethod() == 'POST') {
                  'results' => $results
              ]
  );
-}
+
 
 })->setName('detail');
