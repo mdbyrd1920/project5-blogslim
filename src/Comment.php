@@ -15,7 +15,7 @@ class Comment
     {
       $results = $this->db->prepare(
                  'SELECT * FROM comments WHERE id = ? ORDER BY date DESC'
-)
+);
              $results->bindValue(1, $id, \PDO::PARAM_INT);
              $results->execute();
              $comments = $results->fetchAll();

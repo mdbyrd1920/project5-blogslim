@@ -42,7 +42,7 @@
                     {% for comment in comments %}
                     <div class="comment">
                         <strong>{{ comment.name }}</strong>
-                        <time datetime="{{ comment.date }}">{{ comment.date|date('F d, Y' }}</time>
+                        <time datetime="{{ comment.date }}">{{ comment.date|date('F d, Y') }}</time>
                         <p>{{ comment.body }}</p>
                     </div>
 
