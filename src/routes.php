@@ -80,7 +80,7 @@ if ($request->getMethod() == 'POST') {
    $args['post'] = $results;
    $results_comments = $comment->getComments($args['id']);
    $args['comments'] = $results_comments;
-   if (empty($singlePost)) {
+   if (empty($results_comments)) {
        $url = $this->router->pathFor('detail');
        return $response->withStatus(302)->withHeader('Location', $url);
 }
@@ -93,7 +93,7 @@ if ($request->getMethod() == 'POST') {
                  'post' => $post,
                  'comment' => $comment,
                  'args' => $args,
-                 'results' => $results
+                 //'results' => $results
              ]
  );
 

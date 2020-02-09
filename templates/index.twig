@@ -26,7 +26,7 @@
 
                     <article>
                         <!-- <h2><a href="detail.twig"> {{ posts }} </a></h2> -->
-                        <h2><a href="{{ post.id }}">{{ post.title|raw }}</a></h2>
+                        <h2><a href="detail/{{ post.id }}">{{ post.title|raw }}</a></h2>
                         <time datetime=""> {{ post.date|date('F d, Y') }} </time>
                     </article>
 
