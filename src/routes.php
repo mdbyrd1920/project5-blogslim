@@ -104,7 +104,7 @@ if (!empty($results_comments)) {
 }
        //$args['error'] = "all fields are required"
 }
-$args['save'] = $_POST;
+
 //render detail view
     return $this->view->render($response, 'detail.twig',
           [
