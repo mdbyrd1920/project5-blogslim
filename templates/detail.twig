@@ -13,7 +13,7 @@
         <header>
             <div class="container">
                 <div class="site-header">
-                    <a class="logo" href="index.twig">SparkBlog</a>
+                    <a class="logo" href="/">SparkBlog</a>
                     <a class="new-entry button button-round" href="/new"><i class="material-icons">create</i></a>
                 </div>
             </div>
@@ -50,14 +50,15 @@
 
                {% endif %}
                     <div class="new-comment">
-                        <form method="POST" action="{{ post.id }}/{{ post.title|raw }}">
-                              <label for="name"> Name</label>
+                        <form method="POST" action="{{ detail.id }}/{{ detail.title|raw }}">
+
+                              <label for="name">Name</label>
                               <input type="text" name=""><br>
                               <label for="comment">Comment</label>
                               <textarea rows="5" name="comment"></textarea>
 
                               <input type="submit" value="Post Comment" class="button">
-
+                              <input type="hidden" name="Post_ID" value=" {{ details.id }} " >
                         </form>
                     </div>
             </div>

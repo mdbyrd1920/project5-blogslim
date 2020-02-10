@@ -56,31 +56,48 @@ return $response->withStatus(302)->withHeader('Location', '/');
 })->setName('new');
 
 
-
-
-
-
-
 //details
 
 $app->map(['GET', 'POST'], '/detail/{id}', function($request, $response, $args) {
 
 $post = new Post($this->db);
 $comment = new Comment($this->db);
-
 $this->logger->info('/details');
+
+$args = array_merge($args, $request->getParsedBody());
+
+
+if (!empty($args['id'])) {
+  $results_comments = $comment->getComments($args['id']);
+  $args['post'] = $results;
+}
+    $url = $this->router->pathFor('detail');
+    return $response->withStatus(302)->withHeader('Location', $url);
+
+/*$results = $post->getAPost($args['id']);
+$args['post'] = $results;
+$results_comments = $comment->getComments($args['id']);
+$args['comments'] = $results_comments; */
+
+/*$args['id'] is set
+ Then you should have another if to see if the getMethod()
+ is post when a user wants to submit a comment
 
 if ($request->getMethod() == 'POST') {
  $args = array_merge($args, $request->getParsedBody());
+if (!empty($args['name']) && !empty($args['comment'])) {
+                $comment = new Comment($this->db);
+                $comment->name = $args['name'];
+                $comment->comment = $args['comment'];
+                $comment->id = $args['id'];
+                $comment->save();
+*/
 
+/*      return $this->view->render($response, 'detail.twig', $args);
+}
 
-//if (!empty($args['title']) && !empty($args['date']) && !empty($args['body'])) {
+if (!empty($args['name']) && !empty($args['comment'])) {
 
-   $results = $post->getAPost($args['id']);
-   $args['post'] = $results;
-   $results_comments = $comment->getComments($args['id']);
-   $args['comments'] = $results_comments;
-   if (empty($results_comments)) {
        $url = $this->router->pathFor('detail');
        return $response->withStatus(302)->withHeader('Location', $url);
 }
@@ -93,9 +110,10 @@ if ($request->getMethod() == 'POST') {
                  'post' => $post,
                  'comment' => $comment,
                  'args' => $args,
+                 'results_comments' => $results_comments
                  //'results' => $results
              ]
- );
+ );*/
 
 
 })->setName('detail');

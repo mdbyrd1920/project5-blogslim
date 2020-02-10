@@ -14,7 +14,7 @@ class Comment
     public function getComments()
     {
       $results = $this->db->prepare(
-                 'SELECT * FROM comments WHERE id = ? ORDER BY date DESC'
+                 'SELECT * FROM comments WHERE id = ? ' 
 );
              $results->bindValue(1, $id, \PDO::PARAM_INT);
              $results->execute();
