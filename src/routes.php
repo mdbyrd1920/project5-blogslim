@@ -56,11 +56,6 @@ return $response->withStatus(302)->withHeader('Location', '/');
 })->setName('new');
 
 
-
-
-
-
-
 //details
 
 $app->map(['GET', 'POST'], '/detail/{id}', function($request, $response, $args) {
@@ -69,52 +64,28 @@ $post = new Post($this->db);
 $comment = new Comment($this->db);
 $this->logger->info('/details');
 
-
-
-/*if (!empty($args['name']) && !empty($args['comment'])) {
-    $url = $this->router->pathFor('detail');
-    return $response->withStatus(302)->withHeader('Location', $url);
-} */
-/*$results = $post->getAPost($args['id']);
-$args['post'] = $results;
-$results_comments = $comment->getComments($args['id']);
-$args['comments'] = $results_comments; */
-
-
-
-if ($request->getMethod() == 'POST') {
- $args = array_merge($args, $request->getParsedBody());
-if (empty($args['name']) && empty($args['comment'])) {
-            $comment->getComments($args['name'], $args['comment'], $args['id']);
-            //$comment->save();
-
-      $url = $this->router->pathFor('detail');
-      return $response->withStatus(302)->withHeader('Location', $url);
-}
-
 $results = $post->getAPost($args['id']);
 $args['post'] = $results;
 $results_comments = $comment->getComments($args['id']);
 $args['comments'] = $results_comments;
 
-if (!empty($results_comments)) {
-
-       $url = $this->router->pathFor('detail');
-       return $response->withStatus(302)->withHeader('Location', $url);
-}
-       //$args['error'] = "all fields are required"
-}
 
 //render detail view
-    return $this->view->render($response, 'detail.twig',
-          [
-                 'post' => $post,
-                 'comment' => $comment,
-                 'args' => $args,
-                //'results_comments' => $results_comments,
-                 //'results' => $results
-             ]
- );
-
+    return $this->view->render($response, 'detail.twig', $args);
 
 })->setName('detail');
+
+
+
+//edit
+
+$app->map(['GET', 'PUT'], '/edit/{id}', function ($request, $response, $args) {
+
+  $post = new Post ($this->db);
+  //Calls get posts method
+  $results = $post->getPosts();
+  //pass $results to the view ndex.twig template
+  $args['posts'] = $results;
+  // Render index view
+  return $this->view->render($response, 'edit.twig', $args);
+});
