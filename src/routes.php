@@ -87,22 +87,10 @@ $app->map(['GET', 'POST'], '/edit/{id}', function ($request, $response, $args) {
   //pass $results to the view edit.twig template
   $args['post'] = $results;
   // Render view
-  return $this->view->render($response, 'edit.twig', $args);
+  if($request->getMethod() == "POST") {
+    $args = array_merge($args, $request->getParsedBody());
+    $results = $post->updatePost($args['id'], $args['title'], $args['date'], $args['body']);
+    } return $this->view->render($response, 'edit.twig', $args);
 });
 
 //update
-/*
-$app->map(['GET', 'POST'], '/edit/{id}', function ($request, $response, $args) {
-
-  $post = new Post ($this->db);
-
-  $this->logger->info('/edit');
-
-  $results = $post->updatePost($args['id'], $args['title'], $args['date'], $args['entry']);
-  //pass $results to the view edit.twig template
-  $args['post'] = $results;
-  // Render view
-  return $this->view->render($response, 'edit.twig', $args);
-});
-
-*/
