@@ -14,16 +14,16 @@ class Comment
     public function getComments()
     {
       $results = $this->db->prepare(
-                 'SELECT * FROM comments WHERE id = ? ' 
+                 'SELECT * FROM comments WHERE id = ? '
 );
-             $results->bindValue(1, $id, \PDO::PARAM_INT);
+             $results->bindParam(1, $id, \PDO::PARAM_INT);
              $results->execute();
-             $comments = $results->fetchAll();
+             $comment = $results->fetchAll();
 
         /*if (empty($posts)) {
             throw new ApiException(ApiException::REVIEW_NOT_FOUND, 404);
         }*/
-        return $comments;
+        return $comment;
     }
 
 //

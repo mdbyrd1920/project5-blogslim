@@ -23,16 +23,17 @@
             <div class="container">
                 <div class="edit-entry">
                     <h2>Edit Entry</h2>
-                    <form action="/edit/{{ detail.id }}" method="POST">
+                    <form action="/edit/{{ post.id }}" method="POST">
 
 
                         <label for="title"> Title</label>
-                        <input type="text" name="title" value="{{ post.title |raw }}" required><br>
+                        <input type="text" name="title" value="{{ post.title|raw }}" required><br>
                         <label for="date"></label>
                         <label for="body">Entry</label>
+                        <input type="hidden" name="date" value="{{ post.date }}"><br>
                         <textarea rows="5" name="body" required>{{ post.body|raw }}</textarea>
                         <input type="submit" value="Save Entry" class="button">
-                        <a href="{{ details.id }}" class="button button-secondary">Cancel</a>
+                        <a href="/detail/{{ post.id }}" class="button button-secondary">Cancel</a>
                     </form>
                 </div>
             </div>
