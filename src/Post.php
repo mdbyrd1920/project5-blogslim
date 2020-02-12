@@ -63,18 +63,20 @@ class Post
 
 
 //updatePost/edit
-    public function updatePost($title, $date, $body)
+    public function updatePost($id, $title, $date, $body)
     {
         $this->getAPost($id, $title, $date, $body);
-        $results = $this->db->prepare('UPDATE posts SET title = ?, date = ?, body = ? WHERE id = ?');
+        $results = $this->db->prepare('UPDATE posts SET title = :title, date = :date, body = :body WHERE id = :id');
         $results->bindParam(':id', $id, PDO::PARAM_INT);
-		$results->bindParam(':title', $title, PDO::PARAM_STR);
-		$results->bindParam(':date', $date, PDO::PARAM_STR);
-		$results->bindParam(':body', $body, PDO::PARAM_STR);
-		$results->execute();
-		return true;
-	}
-
+        $results->bindParam(':title', $title, PDO::PARAM_STR);
+        $results->bindParam(':date', $date, PDO::PARAM_STR);
+        $results->bindParam(':body', $body, PDO::PARAM_STR);
+        $results->execute();
+        /*if ($statement->rowCount()<1) {\
+            throw new ApiException(ApiException::REVIEW_UPDATE_FAILED);
+        }*/
+              return true;
+    }
 
 // deletePost
     public function deletePost($id)

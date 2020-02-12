@@ -14,18 +14,6 @@ use Slim\Views\Twig;
 
 $container = $app->getContainer();
 
-//display index page
-$app->get('/', function ($request, $response, $args) {
-    //$this->logger->info("index'/' route");
-    //new post object
-    $post = new Post ($this->db);
-    //Calls get posts method
-    $results = $post->getPosts();
-    //pass $results to the view ndex.twig template
-    $args['posts'] = $results;
-    // Render index view
-    return $this->view->render($response, 'index.twig', $args);
-});
 
 //Publish new entry page/form
 $app->get('/new', function($request, $response) {
@@ -82,15 +70,32 @@ $app->map(['GET', 'POST'], '/edit/{id}', function ($request, $response, $args) {
   $post = new Post ($this->db);
 
   $this->logger->info('/edit');
-
-  $results = $post->getAPost($args['id']);
   //pass $results to the view edit.twig template
+  $results = $post->getAPost($args['id']);
   $args['post'] = $results;
-  // Render view
-  if($request->getMethod() == "POST") {
-    $args = array_merge($args, $request->getParsedBody());
-    $results = $post->updatePost($args['id'], $args['title'], $args['date'], $args['body']);
-    } return $this->view->render($response, 'edit.twig', $args);
+
+    //var_dump($args);
+//  if($request->getMethod() == "POST") {
+//  $args = array_merge($args, $request->getParsedBody());
+  //$results = $post->updatePost($args['id'], $args['title'], $args['date'], $args['body']);
+
+    // View updated post
+    return $this->view->render($response, 'edit.twig', $args);
+//  }
 });
 
-//update
+
+
+
+//display index page
+$app->get('/', function ($request, $response, $args) {
+    //$this->logger->info("index'/' route");
+    //new post object
+    $post = new Post ($this->db);
+    //Calls get posts method
+    $results = $post->getPosts();
+    //pass $results to the view ndex.twig template
+    $args['posts'] = $results;
+    // Render index view
+    return $this->view->render($response, 'index.twig', $args);
+});
