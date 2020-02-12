@@ -48,6 +48,7 @@ return $response->withStatus(302)->withHeader('Location', '/');
 
 $app->map(['GET', 'POST'], '/detail/{id}', function($request, $response, $args) {
 
+
 $post = new Post($this->db);
 $comment = new Comment($this->db);
 $this->logger->info('/details');
