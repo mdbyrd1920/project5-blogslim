@@ -65,8 +65,9 @@ class Post
 //updatePost/edit
     public function updatePost($id, $title, $date, $body)
     {
-        $this->getAPost($id, $title, $date, $body);
-        $results = $this->db->prepare('UPDATE posts SET title = :title, date = :date, body = :body WHERE id = :id');
+        //$this->getAPost($id, $title, $date, $body);
+        $results = $this->db->prepare(
+        'UPDATE posts SET title = :title, date = :date, body = :body WHERE id = :id');
         $results->bindParam(':id', $id, PDO::PARAM_INT);
         $results->bindParam(':title', $title, PDO::PARAM_STR);
         $results->bindParam(':date', $date, PDO::PARAM_STR);
