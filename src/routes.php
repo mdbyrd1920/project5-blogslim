@@ -46,23 +46,38 @@ return $response->withStatus(302)->withHeader('Location', '/');
 
 //details
 
-$app->map(['GET', 'POST'], '/detail/{id}', function($request, $response, $args) {
-
+$app->get('/detail/{id}', function($request, $response, $args) {
 
 $post = new Post($this->db);
-$comment = new Comment($this->db);
+//$comment = new Comment($this->db);
 $this->logger->info('/details');
 
 $results = $post->getAPost($args['id']);
 $args['post'] = $results;
-$results_comments = $comment->getComments($args['id']);
-$args['comments'] = $results_comments;
-
+//$results_comments = $comment->getComments($args['id']);
+//$args['comments'] = $results_comments;
 
 //render detail view
     return $this->view->render($response, 'detail.twig', $args);
 
 })->setName('detail');
+
+
+
+//add name & comment to post
+$app->post('/detail/{id}', function($request, $response, $args) {
+
+    $args = array_merge($args, $request->getParsedBody());
+
+    // Add Comment
+    $comment = new Comments($this->db);
+    $addComment = $comment->createComment($args['name'], $args['body'], $args['id']);
+
+    // Display Comment
+    return $this->response->withStatus(302)->withHeader('Location', '/detail/'. $args['id']);
+  });
+
+
 
 //edit
 
@@ -80,9 +95,6 @@ $app->map(['GET', 'POST'], '/edit/{id}', function ($request, $response, $args) {
     return $this->response->withStatus(302)->withHeader('Location', '/detail/'. $args['id'] );
     } return $this->view->render($response, 'edit.twig', $args);
 });
-
-
-
 
 
 //display index page
