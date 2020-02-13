@@ -70,8 +70,8 @@ $app->post('/detail/{id}', function($request, $response, $args) {
     $args = array_merge($args, $request->getParsedBody());
 
     // Add Comment
-    $comment = new Comments($this->db);
-    $addComment = $comment->createComment($args['name'], $args['body'], $args['id']);
+    $comment = new Comment($this->db);
+    $comment->createComment($args['name'], $args['comment'], $args['id']);
 
     // Display Comment
     return $this->response->withStatus(302)->withHeader('Location', '/detail/'. $args['id']);

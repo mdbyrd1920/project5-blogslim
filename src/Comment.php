@@ -43,14 +43,12 @@ class Comment
 
     public function createComment($name, $comment, $postId)
     {
-        /*if (empty($data['post_id']) || empty($data['rating']) || empty($data['comment'])) {
-            throw new ApiException(ApiException::REVIEW_INFO_REQUIRED);
-        }*/
+
         $results = $this->db->prepare('INSERT INTO comments (name, body, id)
-				VALUES(:name, :body, :id)');
+				VALUES(:name, :body, :postId)');
         $results->bindParam(':name', $name, PDO::PARAM_STR);
-		$results->bindParam(':body', $comment, PDO::PARAM_STR);
-		$results->bindParam(':id', $postId, PDO::PARAM_INT);
+		    $results->bindParam(':body', $comment, PDO::PARAM_STR);
+		    $results->bindParam(':id', $postId, PDO::PARAM_INT);
 	//	$results->bindParam(':date', $date, PDO::PARAM_STR);
 		$results->execute();
 		return true;
