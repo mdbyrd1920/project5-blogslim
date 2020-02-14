@@ -71,8 +71,9 @@ $app->post('/detail/{id}', function($request, $response, $args) {
 
     // Add Comment
     $comment = new Comment($this->db);
-    $blogComment = $comment->createComment($args['name'], $args['comment'], $args['postId']);
-
+    $blogComment = $comment->createComment($args['name'], $args['comment'], $args['id']);
+    //$results_comments = $comment->getComments($args['id']);
+    //$args['comment'] = $results_comments;
 
     return $this->response->withStatus(302)->withHeader('Location', '/detail/'. $args['id']);
   });

@@ -27,7 +27,7 @@ class Comment
     }
 */
 //
-    public function getComments($id)
+    public function getComments($postId)
   {
       $results = $this->db->prepare(
          'SELECT * FROM comments WHERE postId=:postId'
