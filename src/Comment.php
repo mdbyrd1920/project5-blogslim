@@ -30,9 +30,9 @@ class Comment
     public function getComments($id)
   {
       $results = $this->db->prepare(
-         'SELECT * FROM comments WHERE id=:id'
+         'SELECT * FROM comments WHERE postId=:postId'
       );
-      $results->bindParam('id', $id);
+      $results->bindParam('postId', $postId);
       $results->execute();
       return $results->fetchAll(PDO::FETCH_ASSOC);
       /*if (empty($post)) {
@@ -44,11 +44,11 @@ class Comment
     public function createComment($name, $comment, $postId)
     {
 
-        $results = $this->db->prepare('INSERT INTO comments (name, body, id)
+        $results = $this->db->prepare('INSERT INTO comments (name, body, postId)
 				VALUES(:name, :body, :postId)');
         $results->bindParam(':name', $name, PDO::PARAM_STR);
 		    $results->bindParam(':body', $comment, PDO::PARAM_STR);
-		    $results->bindParam(':id', $postId, PDO::PARAM_INT);
+		    $results->bindParam(':postId', $postId, PDO::PARAM_INT);
 	//	$results->bindParam(':date', $date, PDO::PARAM_STR);
 		$results->execute();
 		return true;

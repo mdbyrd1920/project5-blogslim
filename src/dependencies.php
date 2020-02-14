@@ -41,18 +41,17 @@ $container['logger'] = function ($c) {
 
 //  };
 
+/*
 //Database Connection
-/*$container['db'] = function () {
-	try {
-		$db = new PDO("sqlite:".__DIR__."../blog.db");
-		$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-	} catch (Exception $e) {
-		echo $e->getMessage();
-		exit;
-	}
-	return $db;
-};
-*/
+$container['db'] = function () {
+try {
+$db = new PDO("sqlite:".__DIR__."/../blog.db");
+$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+      $db->exec( 'PRAGMA foreign_keys = ON;' );
+
+}
+} */
+
 
 //API
 
