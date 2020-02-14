@@ -49,13 +49,13 @@ return $response->withStatus(302)->withHeader('Location', '/');
 $app->get('/detail/{id}', function($request, $response, $args) {
 
 $post = new Post($this->db);
-//$comment = new Comment($this->db);
+$comment = new Comment($this->db);
 $this->logger->info('/details');
 
 $results = $post->getAPost($args['id']);
 $args['post'] = $results;
-//$results_comments = $comment->getComments($args['id']);
-//$args['comments'] = $results_comments;
+$results_comments = $comment->getComments($args['id']);
+$args['comments'] = $results_comments;
 
 //render detail view
     return $this->view->render($response, 'detail.twig', $args);
@@ -77,10 +77,6 @@ $app->post('/detail/{id}', function($request, $response, $args) {
 
     return $this->response->withStatus(302)->withHeader('Location', '/detail/'. $args['id']);
   });
-
-
-
-
 
 
 
