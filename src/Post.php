@@ -73,10 +73,7 @@ class Post
         $results->bindParam(':date', $date, PDO::PARAM_STR);
         $results->bindParam(':body', $body, PDO::PARAM_STR);
         $results->execute();
-        /*if ($statement->rowCount()<1) {\
-            throw new ApiException(ApiException::REVIEW_UPDATE_FAILED);
-        }*/
-              return true;
+          return true;
     }
 
 // deletePost

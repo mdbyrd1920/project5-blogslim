@@ -7,23 +7,29 @@
         <link href='https://fonts.googleapis.com/css?family=Noto+Serif:400,400italic,700|Noto+Sans:700,400' rel='stylesheet' type='text/css'>
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link rel="stylesheet" href="{{ base_url() }}/css/normalize.css">
-<link rel="stylesheet" href="{{ base_url() }}/css/site.css">
+        <link rel="stylesheet" href="{{ base_url() }}/css/site.css">
+
     </head>
     <body>
         <header>
             <div class="container">
                 <div class="site-header">
-                    <a class="logo" href="/">SparkBlog</a>
+                    <a class="logo" href="/" style="background-color:Violet;">
+                      SparkBlog</a>
                     <a class="new-entry button button-round" href="/new"><i class="material-icons">create</i></a>
                 </div>
             </div>
         </header>
         <section>
+
             <div class="container">
                 <div class="entry-list single">
 
                     <article>
-                        <h1>{{ post.title|raw }}</h1>
+
+
+                        <h1 style="background-color:hsl(300, 76%, 72%);">
+                          {{ post.title|raw }}</h1>
                         <time datetime="{{ post.date }}">{{ post.date|date('F d, Y') }}</time>
                         <div class="body">
                             <p>{{ post.body|raw }}</p>
@@ -41,9 +47,11 @@
 
                     {% for comment in comments %}
                     <div class="comment">
-                        <strong>{{ comment.name }}</strong>
+                        <strong style="color:MediumSeaGreen;">
+                          {{ comment.name }}</strong>
                         <time datetime="{{ comment.date }}">{{ comment.date|date('F d, Y') }}</time>
-                        <p>{{ comment.body }}</p>
+                        <p style="color:MediumSeaGreen;">
+                          {{ comment.body }}</p>
                     </div>
 
                     {% endfor %}
@@ -54,9 +62,10 @@
                                   <form method="POST" action="/detail/{{ post.id }}">
 
                                         <label for="name">Name</label>
-                                        <input type="text" name="name"><br>
+                                        <input style="color:MediumSeaGreen;"
+                                        type="text" name="name"><br>
                                         <label for="comment">Comment</label>
-                                        <textarea rows="5" name="comment"></textarea>
+                                        <textarea style="color:MediumSeaGreen;" rows="5" name="comment"></textarea>
 
                                         <input type="submit" value="Post Comment" class="button">
                                         <input type="hidden" name="postId" value=" {{ detail.id }} " >

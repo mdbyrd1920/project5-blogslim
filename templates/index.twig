@@ -13,12 +13,14 @@
         <header>
             <div class="container">
                 <div class="site-header">
-                    <a class="logo" href="/">SparkBlog</a>
+                    <a class="logo" href="/" style="background-color:Violet;">
+                      SparkBlog</a>
                     <a class="new-entry button button-round" href="/new"><i class="material-icons">create</i></a>
                 </div>
             </div>
         </header>
         <section>
+
             <div class="container">
                 <div class="entry-list">
 
@@ -26,7 +28,7 @@
 
                     <article>
                         <!-- <h2><a href="detail.twig"> {{ posts }} </a></h2> -->
-                        <h2><a href="detail/{{ post.id }}">{{ post.title|raw }}</a></h2>
+                        <h2><a style="border:2px solid Violet;" href="detail/{{ post.id }}">{{ post.title|raw }}</a></h2>
                         <time datetime=""> {{ post.date|date('F d, Y') }} </time>
                     </article>
 
@@ -39,7 +41,6 @@
             <div>
                 <a href="#">Contact Us</a>&nbsp;&nbsp;&bull;&nbsp;&nbsp;
                 <a href="#">Terms</a>
-              {{"now"|date('Y') }}
             </div>
         </footer>
 
