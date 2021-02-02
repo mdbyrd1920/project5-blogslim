@@ -13,7 +13,7 @@
     ],
     "require": {
         "php": ">=5.6",
-        "illuminate/database": "^5.4",
+        "illuminate/database": "^6.20",
         "monolog/monolog": "^1.17",
         "slim/csrf": "^0.8.3",
         "slim/php-view": "^2.0",
